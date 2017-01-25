@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.CursorTreeAdapter;
 import android.widget.EditText;
@@ -28,6 +29,8 @@ import com.example.jessymartiano.navdrawer.R;
 import com.example.jessymartiano.navdrawer.MainActivity;
 import com.example.jessymartiano.navdrawer.backend.AcademyContract;
 
+import org.w3c.dom.Text;
+
 import static com.example.jessymartiano.navdrawer.R.layout.list_row;
 
 
@@ -37,11 +40,16 @@ public class ListFragment extends Fragment {
     private ActivityList activityList;
     private ListView itemListView;
     private TextView loadingTextView;
+    private TextView typeActivity;
+    private TextView country;
+
+
     // EditText filterEditText;
     SearchView filterSearchView;
     //  CursorAdapter adapter;
 
     CursorAdapter adapter;
+    SimpleCursorAdapter adapter1 ;
 
     public ListFragment() {
 
@@ -78,29 +86,31 @@ public class ListFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        typeActivity= (TextView) getActivity().findViewById(R.id.typeActivity);
+        country=(TextView) getActivity().findViewById(R.id.country);
 
 
 
         itemListView = (ListView) getActivity().findViewById(R.id.ItemListView);
         loadingTextView = (TextView) getActivity().findViewById(R.id.loadingTextView);
-//        filterEditText = (EditText) getActivity().findViewById(R.id.filterEditText);
-//        filterEditText.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                adapter.getFilter().filter(s);
-//                adapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
+
+
+       /* filterEditText = (EditText) getActivity().findViewById(R.id.filterEditText);
+        filterEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.getFilter().filter(s);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }*//*
+        });
 
         filterSearchView = (SearchView) getActivity().findViewById(R.id.filterSearchView);
         filterSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -118,8 +128,9 @@ public class ListFragment extends Fragment {
                 adapter.notifyDataSetChanged();
                 return false;
             }
-        });
+        });*/
     }
+
 
     public void UpdateList(final Uri uri) {
 
@@ -128,19 +139,31 @@ public class ListFragment extends Fragment {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
+
+
+
                 itemListView.setVisibility(View.INVISIBLE);
                 loadingTextView.setVisibility(View.VISIBLE);
             }
 
             @Override
             protected Cursor doInBackground(Void... params) {
-                return getActivity().getContentResolver().query(uri, null, null, null, null);
-                // return null;
+                Cursor cursor = getActivity().getContentResolver().query(AcademyContract.Activity.ACTIVITY_URI, null, null, null, null);
+                return cursor;
             }
 
             @Override
             protected void onPostExecute(final Cursor cursor) {
                 super.onPostExecute(cursor);
+                 adapter1 = new SimpleCursorAdapter
+                        (
+                                getActivity(),
+                                list_row,
+                                null,
+                                new String[]{AcademyContract.Activity.ACTIVITY_TYPE, AcademyContract.Activity.ACTIVITY_COUNTRY,AcademyContract.Activity.ACTIVITY_PRICE},
+                                new int[]{R.id.typeActivity, R.id.country,R.id.price}
+                        );
+                adapter1.changeCursor(cursor);
 
                 adapter = new CursorAdapter(getActivity(), cursor) {
                     @Override
@@ -156,9 +179,8 @@ public class ListFragment extends Fragment {
                         tv.setText("[" + cursor.getString(0) + "]  " + cursor.getString(1));
                     }
 
-
-                   // @Override
-                    /*public Filter getFilter() {
+                   /* @Override
+                    public Filter getFilter() {
                         return new Filter() {
                             @Override
                             protected FilterResults performFiltering(CharSequence constraint) {
@@ -210,7 +232,6 @@ public class ListFragment extends Fragment {
                         };
                     }*/
 
-
 //                adapter = new CursorTreeAdapter(cursor,getActivity()) {
 //                    @Override
 //                    protected Cursor getChildrenCursor(Cursor groupCursor) {
@@ -239,10 +260,11 @@ public class ListFragment extends Fragment {
 //                };
 
                 };
-
-                itemListView.setAdapter(adapter);
                 itemListView.setVisibility(View.VISIBLE);
                 loadingTextView.setVisibility(View.INVISIBLE);
+                itemListView.setAdapter(adapter1);
+
+
             }
 
             ;
