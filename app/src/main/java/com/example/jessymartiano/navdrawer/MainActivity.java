@@ -7,6 +7,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,17 +16,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 import com.example.jessymartiano.navdrawer.backend.AcademyContract;
 
+import static com.example.jessymartiano.navdrawer.R.layout.activity_main;
 import static com.example.jessymartiano.navdrawer.R.layout.list_row;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ListFragment listFragment;
+    private ListFragmentBusiness listFragmentBusiness;
     private ActivityList activityList;
 
     @Override
@@ -65,6 +70,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void findViews(){
+
+
         final Uri uri = AcademyContract.Activity.ACTIVITY_URI;
 
         listFragment =  (ListFragment) getFragmentManager().findFragmentById(R.id.listFragment);
@@ -97,9 +104,20 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_Business) {
-            // Handle the camera action
-        } else if (id == R.id.nav_activity) {
+
+        if (id == R.id.nav_activity) {
+            final Uri uri = AcademyContract.Activity.ACTIVITY_URI;
+
+            listFragment =  (ListFragment) getFragmentManager().findFragmentById(R.id.listFragment);
+            listFragment.UpdateList(uri);
+
+
+        } else if (id == R.id.nav_Business) {
+            final Uri uri = AcademyContract.Business.BUSINESS_URI;
+
+            listFragmentBusiness =  (ListFragmentBusiness) getFragmentManager().findFragmentById(R.id.listFragmentBusiness);
+            listFragmentBusiness.UpdateList(uri);
+
 
         } else if (id == R.id.nav_exit) {
 
