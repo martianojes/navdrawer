@@ -21,10 +21,12 @@ public class AcademyContract {
         public static final String ACTIVITY_ID = "_id";
         public static final String ACTIVITY_TYPE = "type";
         public static final String ACTIVITY_COUNTRY = "country";
-        public static final String ACTIVITY_BEGIN = "begin";
-        public static final String ACTIVITY_END = "end";
+        public static final String ACTIVITY_BEGIN = "date_start";
+        public static final String ACTIVITY_END = "date_end";
         public static final String ACTIVITY_PRICE = "price";
         public static final String ACTIVITY_EXPLANATION = "explanation";
+        public static final String ACTIVITY_BUSINESS_ID = "business_Id";
+
 
         /**
          * The content:// style URI for this table

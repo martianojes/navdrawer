@@ -1,7 +1,11 @@
 package com.example.jessymartiano.navdrawer.entities;
 
+import com.example.jessymartiano.navdrawer.backend.AcademyContract;
+
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -9,21 +13,52 @@ import java.util.Date;
  * Created by jessymartiano on 30/11/2016.
  */
 
-public class Activity {
+public class Activity implements Serializable {
     private enumActivities type;
     private String country;
-    private Date beginning;
-    private Date end;
+    private String beginning;
+    private String end;
     private float price;
     private String explanation;
     private int id;
+    private int businessid;
 
 
     public Activity(){
 
     }
 
-    public Activity(enumActivities type, String country, Date beginning, Date end, float price, String explanation, int id) {
+    public static String[] getColumns(){
+        return new String[]{AcademyContract.Activity.ACTIVITY_TYPE,AcademyContract.Activity.ACTIVITY_COUNTRY,
+                AcademyContract.Activity.ACTIVITY_BEGIN,AcademyContract.Activity.ACTIVITY_END,
+                AcademyContract.Activity.ACTIVITY_PRICE,AcademyContract.Activity.ACTIVITY_EXPLANATION,
+                AcademyContract.Activity.ACTIVITY_BUSINESS_ID,AcademyContract.Activity.ACTIVITY_ID};
+    }
+
+    public String getValue(String Col) throws Exception {
+        switch (Col){
+            case AcademyContract.Activity.ACTIVITY_BUSINESS_ID:
+                return String.valueOf(getBusinessid());
+            case AcademyContract.Activity.ACTIVITY_TYPE:
+                return getType().toString();
+            case AcademyContract.Activity.ACTIVITY_COUNTRY:
+                return getCountry();
+            case AcademyContract.Activity.ACTIVITY_BEGIN:
+                return getBeginning();
+            case AcademyContract.Activity.ACTIVITY_END:
+                return getEnd();
+            case AcademyContract.Activity.ACTIVITY_PRICE:
+                return String.valueOf(getPrice());
+            case AcademyContract.Activity.ACTIVITY_EXPLANATION:
+                return getExplanation();
+            case AcademyContract.Activity.ACTIVITY_ID:
+                return String.valueOf(getId());
+            default:
+                throw new Exception("Error ! Column doesn't Exist");
+        }
+    }
+
+    public Activity(enumActivities type, String country, String beginning, String end, float price, String explanation, int id , int businessid) {
         this.type = type;
         this.country = country;
         this.beginning = beginning;
@@ -31,6 +66,7 @@ public class Activity {
         this.price = price;
         this.explanation = explanation;
         this.id = id;
+        this.businessid=businessid;
     }
 
 
@@ -50,45 +86,24 @@ public class Activity {
         this.country = country;
     }
 
-    public Date getBeginning() {
+    public String getBeginning() {
         return beginning;
     }
 
-    public void setBeginning(Date beginning) {
+    public void setBeginning(String beginning) {
         this.beginning = beginning;
     }
 
-    public void setBeginning(String beginning) {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        Date convertedDate = new Date();
-        try {
-            convertedDate = dateFormat.parse(beginning);
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
 
-    public Date getEnd() {
+    public String getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(String end) {
         this.end = end;
     }
 
-    public void setEnd(String end) {
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        Date convertedDate = new Date();
-        try {
-            convertedDate = dateFormat.parse(end);
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
 
     public float getPrice() {
         return price;
@@ -112,5 +127,14 @@ public class Activity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+
+    public int getBusinessid() {
+        return businessid;
+    }
+
+    public void setBusinessid(int businessid) {
+        this.businessid = businessid;
     }
 }

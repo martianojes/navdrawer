@@ -1,26 +1,37 @@
 package com.example.jessymartiano.navdrawer;
 
 import android.app.ListActivity;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 import com.example.jessymartiano.navdrawer.backend.AcademyContract;
+import com.example.jessymartiano.navdrawer.backend.DB_manager;
+import com.example.jessymartiano.navdrawer.backend.PublicObjects;
 
 import static com.example.jessymartiano.navdrawer.R.layout.activity_main;
 import static com.example.jessymartiano.navdrawer.R.layout.list_row;
@@ -28,15 +39,18 @@ import static com.example.jessymartiano.navdrawer.R.layout.list_row;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ListFragment listFragment;
-    private ListFragmentBusiness listFragmentBusiness;
-    private ActivityList activityList;
+    DB_manager db;
+    SearchView searchView;
+
+    public static Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        PublicObjects.start = this;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.navbarprinc);
+        setContentView(R.layout.activity_starting);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        searchView = (SearchView) findViewById(R.id.searchView);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -45,14 +59,129 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                android.support.v4.app.Fragment current = getSupportFragmentManager().findFragmentByTag("buss");
+                if (PublicObjects.BussFrag != null) {
+                    //found it business
+                    if (current != null) {
+                        //resetting the list
+                        //PublicObjects.BussFrag.updateView();
+                        PublicObjects.BussFrag.clearFilter();
+                        PublicObjects.BussFrag.Filter(query.toString());
+                        return true;
+                    }
+                }
+                if (PublicObjects.AttFrag != null) {
+                    current = getSupportFragmentManager().findFragmentByTag("att");
+                    if (current.getId() == PublicObjects.AttFrag.getId()) {
+                        //resetting the list
+                        //PublicObjects.AttFrag.updateView();
+                        PublicObjects.AttFrag.clearFilter();
+                        PublicObjects.AttFrag.Filter(query.toString());
+                        return true;
+                    }
+                }
+                Snackbar.make(searchView, "Please Select a category from the Notification Drawer", Snackbar.LENGTH_LONG);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.isEmpty()) {
+                    if (PublicObjects.currentFrag == PublicObjects.BussFrag && PublicObjects.BussFrag != null)
+                        PublicObjects.BussFrag.clearFilter();
+                    if (PublicObjects.currentFrag == PublicObjects.AttFrag && PublicObjects.AttFrag != null)
+                        PublicObjects.AttFrag.clearFilter();
+                }
+                return true;
+            }
+        });
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        ctx = this;
+        db = BackendFactory.getFactoryDatabase();
+        setUpDatabase(new Delegate() {
+            @Override
+            public void Do() {
 
+            }
+        });
+        startService();
+    }
 
+    /**
+     * set up the database, call the contentresolver
+     * @param func
+     */
+    private void setUpDatabase(final Delegate func) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                db.setUpDatabase();
+                return null;
+            }
 
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                func.Do();
+            }
+        }.execute();
+    }
+
+    /**
+     * when the database is update by an account
+     * the ui is refreshed
+     */
+    public void updateDatabase() {
+        setUpDatabase(new Delegate() {
+            @Override
+            public void Do() {
+                updateUI();
+            }
+        });
+    }
+
+    /**
+     * the fragment are refreshed
+     */
+    private void updateUI() {
+        android.support.v4.app.Fragment current = PublicObjects.currentFrag;
+        //found it bussiness
+        if (current != null && current == PublicObjects.BussFrag) {
+            PublicObjects.BussFrag.updateView();
+            return;
+        }
+        //attractions
+        if (current != null && current == PublicObjects.AttFrag) {
+            PublicObjects.AttFrag.updateView();
+            return;
+        }
 
     }
 
+    /**
+     * service from other app is started so he sends broadcasts once it updated the database
+     */
+    private void startService(){
+        //Intent i = new Intent();
+        //String pkg = "project.android.com.android5777_9254_6826";
+        //String cls = pkg+".model.backend.service";
+        //i.setComponent(new ComponentName(pkg, cls));
+        //startService(i);
+        //Intent intent = new Intent("model.backend.START_SERVICE");
+        //intent.setPackage(this.getPackageName());
+        //startService(intent);
+
+/*        Intent bi = new Intent("model.backend.START_SERVICE");
+        bi.setPackage(pkg);*/
+    }
+
+
+    //region Navigation Drawer
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -62,25 +191,11 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-    //push 2 bis
-    @Override
-    protected void onStart() {
-        super.onStart();
-        findViews();
-    }
 
-    public void findViews(){
-
-
-        final Uri uri = AcademyContract.Activity.ACTIVITY_URI;
-
-        listFragment =  (ListFragment) getFragmentManager().findFragmentById(R.id.listFragment);
-        listFragment.UpdateList(uri);
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.activity_main_drawer, menu);
+        getMenuInflater().inflate(R.menu.starting, menu);
         return true;
     }
 
@@ -92,8 +207,6 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-       // if (id == R.id.action_settings) {return true;
-        //}
 
         return super.onOptionsItemSelected(item);
     }
@@ -104,31 +217,30 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.frame_container);
 
-        if (id == R.id.nav_activity) {
-            final Uri uri = AcademyContract.Activity.ACTIVITY_URI;
-
-            listFragment =  (ListFragment) getFragmentManager().findFragmentById(R.id.listFragment);
-            listFragment.UpdateList(uri);
-
-
-        } else if (id == R.id.nav_Business) {
-            final Uri uri = AcademyContract.Business.BUSINESS_URI;
-
-            listFragmentBusiness =  (ListFragmentBusiness) getFragmentManager().findFragmentById(R.id.listFragmentBusiness);
-            listFragmentBusiness.UpdateList(uri);
-
-
-        } else if (id == R.id.nav_exit) {
-
+        try {
+            if (id == R.id.nav_bus) {
+                //open business fragment
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, PublicObjects.getBusinessFragment(), "buss").commit();
+                PublicObjects.currentFrag = PublicObjects.BussFrag;
+            } else if (id == R.id.nav_att) {
+                //open attraction fragment
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, PublicObjects.getAttractionFragment(), "att").commit();
+                PublicObjects.currentFrag = PublicObjects.AttFrag;
+            } else if (id == R.id.nav_exit) {
+                finish();
+            }
+        } catch (Exception e) {
 
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
+    //endregion
 
 
 }

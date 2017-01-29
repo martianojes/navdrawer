@@ -1,5 +1,7 @@
 package com.example.jessymartiano.navdrawer.entities;
 
+import com.example.jessymartiano.navdrawer.backend.AcademyContract;
+
 /**
  * Created by David on 30/11/2016.
  */
@@ -18,6 +20,31 @@ public class Business {
     }
 
     public Business() {
+    }
+
+    public static String[] getColumns(){
+        return new String[]{AcademyContract.Business.BUSINESS_ID,AcademyContract.Business.BUSINESS_NAME,
+                AcademyContract.Business.BUSINESS_STREET,AcademyContract.Business.BUSINESS_MAIL,
+                AcademyContract.Business.BUSINESS_WEBSITE, AcademyContract.Business.BUSINESS_PHONE};
+    }
+
+    public String getValue(String Col) throws Exception {
+        switch (Col){
+            case AcademyContract.Business.BUSINESS_ID:
+                return String.valueOf(getId());
+            case AcademyContract.Business.BUSINESS_STREET:
+                return getStreet();
+            case AcademyContract.Business.BUSINESS_MAIL:
+                return getMail();
+            case AcademyContract.Business.BUSINESS_NAME:
+                return getName();
+            case AcademyContract.Business.BUSINESS_WEBSITE:
+                return getWebsite();
+            case AcademyContract.Business.BUSINESS_PHONE:
+                return getPhone();
+            default:
+                throw new Exception("Column doesn't Exist");
+        }
     }
 
     public int getId() {

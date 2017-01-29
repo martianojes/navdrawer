@@ -1,279 +1,242 @@
 package com.example.jessymartiano.navdrawer;
 
-import android.app.Fragment;
+import android.app.Activity;
 import android.content.Context;
-import android.database.Cursor;
+import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorAdapter;
-import android.widget.ListView;
-import android.widget.SearchView;
-import android.widget.SimpleCursorAdapter;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.jessymartiano.navdrawer.backend.AcademyContract;
+import com.example.jessymartiano.navdrawer.backend.BusinessFilter;
+import com.example.jessymartiano.navdrawer.backend.StaticDeclarations;
+import com.example.jessymartiano.navdrawer.dummy.DummyContent.DummyItem;
 
-import static com.example.jessymartiano.navdrawer.R.layout.list_row;
+import com.example.jessymartiano.navdrawer.backend.DB_manager;
+import com.example.jessymartiano.navdrawer.entities.Business;
+
+import java.util.ArrayList;
 
 
+/**
+ * A fragment representing a list of Items.
+ * <p/>
+ * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
+ * interface.
+ */
 public class ListFragmentBusiness extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
-    private ActivityList activityList;
-    private ListView itemListView;
-    private TextView loadingTextView;
-    private TextView typeActivity;
-    private TextView country;
+    // TODO: Customize parameter argument names
+    private static final String ARG_COLUMN_COUNT = "column-count";
+    // TODO: Customize parameters
+    private int mColumnCount = 1;
+    private OnListFragmentInteractionListener mListener;
+    private ArrayList<Business> businessList = new ArrayList<>();
+    private ArrayList<Business> beforeFilterList = new ArrayList<>();
+    DB_manager db = BackendFactory.getFactoryDatabase();
+    private boolean noDataRecieved = true;
+    private boolean showingLoadingScreen = false;
+    BusinessListRecyclerViewAdapter adap = null;
+    BaseExpandableListAdapter adp = null;
+    ExpandableListView listView;
+    ProgressBar pBar;
+    View RootView;
 
 
-    // EditText filterEditText;
-    SearchView filterSearchView;
-    //  CursorAdapter adapter;
-
-    CursorAdapter adapter;
-    SimpleCursorAdapter adapter1 ;
-
+    /**
+     * Mandatory empty constructor for the fragment manager to instantiate the
+     * fragment (e.g. upon screen orientation changes).
+     */
     public ListFragmentBusiness() {
-
     }
 
+    @SuppressWarnings("unused")
+    public static ListFragmentBusiness newInstance(int columnCount) {
+        ListFragmentBusiness fragment = new ListFragmentBusiness();
+        Bundle args = new Bundle();
+        args.putInt(ARG_COLUMN_COUNT, columnCount);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
-
+/*        if (getArguments() != null) {
+            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+        }*/
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_listbusiness, container, false);
-
-
-
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        typeActivity= (TextView) getActivity().findViewById(R.id.typeActivity);
-        country=(TextView) getActivity().findViewById(R.id.country);
-
-
-
-        itemListView = (ListView) getActivity().findViewById(R.id.ItemListView);
-        loadingTextView = (TextView) getActivity().findViewById(R.id.loadingTextView);
-
-
-       /* filterEditText = (EditText) getActivity().findViewById(R.id.filterEditText);
-        filterEditText.addTextChangedListener(new TextWatcher() {
+        View view = inflater.inflate(R.layout.expandable_list_business_list, container, false);
+        pBar = (ProgressBar) view.findViewById(R.id.pBarBusinessFragment);
+        listView = (ExpandableListView) view.findViewById(R.id.Busslist);
+        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                Business current = businessList.get(groupPosition);
+                switch (childPosition){
+                    case 1: // maps
+                        MapsIntent(getActivity(),current.getStreet(),current.getStreet());
+                        break;
+                    case 2: // email
+                        emailIntent(getActivity(),current.getMail());
+                        break;
+                    case 3: // website
+                        WebsiteIntet(getActivity(),current.getWebsite());
+                        break;
+                    default:
+                        break;
+                }
+                return true;
             }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }*//*
         });
-
-        filterSearchView = (SearchView) getActivity().findViewById(R.id.filterSearchView);
-        filterSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        adp = new BaseExpandableListAdapter() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-//        adapter.getFilter().filter(query);
-//        adapter.notifyDataSetChanged();
+            public int getGroupCount() {
+                return businessList.size();
+            }
+
+            @Override
+            public int getChildrenCount(int groupPosition) {
+                return 4;
+            }
+
+            @Override
+            public Object getGroup(int groupPosition) {
+                return businessList;
+            }
+
+            @Override
+            public Object getChild(int groupPosition, int childPosition) {
+                Business count = businessList.get(groupPosition);
+                switch (childPosition) {
+                    case 0:
+                        return count.getName();
+                    case 1:
+                        return count.getStreet().toString();
+                    case 2:
+                        return count.getMail();
+                    case 3:
+                        return count.getWebsite();
+                    default:
+                        return count.getName();
+                }
+            }
+
+            @Override
+            public long getGroupId(int groupPosition) {
+                return groupPosition;
+            }
+
+            @Override
+            public long getChildId(int groupPosition, int childPosition) {
+                return childPosition;
+            }
+
+            @Override
+            public boolean hasStableIds() {
                 return false;
             }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                adapter.getFilter().filter(newText);
-                adapter.notifyDataSetChanged();
-                return false;
+            private String getTitle(int groupPosition, int childPosition) {
+                Business count = businessList.get(groupPosition);
+                switch (childPosition) {
+                    case 0:
+                        return "Name: ";
+                    case 1:
+                        return "Country: ";
+                    case 2:
+                        return "Email: ";
+                    case 3:
+                        return "Website: ";
+                    default:
+                        return "Name: ";
+                }
             }
-        });*/
+
+            @Override
+            public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+                if (convertView == null) {
+                    LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    convertView = inflater.inflate(R.layout.parent_layout, parent, false);
+                }
+                TextView email = (TextView) convertView.findViewById(R.id.TVemail);
+                email.setText(businessList.get(groupPosition).getMail());
+                TextView country = (TextView) convertView.findViewById(R.id.TVaddress);
+                country.setText(businessList.get(groupPosition).getStreet().toString());
+                TextView parent_textview = (TextView) convertView.findViewById(R.id.parentTv);
+                parent_textview.setTypeface(null, Typeface.BOLD);
+                parent_textview.setText(businessList.get(groupPosition).getName());
+                return convertView;
+            }
+
+            @Override
+            public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+                if (convertView == null) {
+                    LayoutInflater inflator = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    convertView = inflator.inflate(R.layout.expandable_list_business, parent, false);
+                }
+                //ImageView btn = (ImageView) convertView.findViewById(R.id.imageButtonMap);
+                TextView child_textview = (TextView) convertView.findViewById(R.id.content);
+
+                TextView title = (TextView) convertView.findViewById(R.id.id);
+                child_textview.setText((String) getChild(groupPosition, childPosition));
+                title.setText(getTitle(groupPosition, childPosition));
+
+
+                return convertView;
+            }
+
+            @Override
+            public boolean isChildSelectable(int groupPosition, int childPosition) {
+                return true;
+            }
+
+            @Override
+            public int getChildTypeCount() {
+                return 4;
+            }
+        };
+        listView.setAdapter(adp);
+        getListAsyncTask();
+        return view;
     }
 
-
-    public void UpdateList(final Uri uri) {
-
-        new AsyncTask<Void, Void, Cursor>() {
-
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-
-
-
-                itemListView.setVisibility(View.INVISIBLE);
-                loadingTextView.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            protected Cursor doInBackground(Void... params) {
-                Cursor cursor = getActivity().getContentResolver().query(AcademyContract.Business.BUSINESS_URI, null, null, null, null);
-                return cursor;
-            }
-
-            @Override
-            protected void onPostExecute(final Cursor cursor) {
-                super.onPostExecute(cursor);
-                 adapter1 = new SimpleCursorAdapter
-                        (
-                                getActivity(),
-                                list_row,
-                                null,
-                                new String[]{AcademyContract.Business.BUSINESS_ID, AcademyContract.Business.BUSINESS_WEBSITE,AcademyContract.Business.BUSINESS_PHONE},
-                                new int[]{R.id.typeActivity, R.id.country,R.id.price}
-                        );
-                adapter1.changeCursor(cursor);
-
-                adapter = new CursorAdapter(getActivity(), cursor) {
-                    @Override
-                    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-                        TextView tv = new TextView(context);
-
-                        return tv;
-                    }
-
-                    @Override
-                    public void bindView(View view, Context context, Cursor cursor) {
-                        TextView tv = (TextView) view;
-                        tv.setText("[" + cursor.getString(0) + "]  " + cursor.getString(1));
-                    }
-
-                   /* @Override
-                    public Filter getFilter() {
-                        return new Filter() {
-                            @Override
-                            protected FilterResults performFiltering(CharSequence constraint) {
-                                FilterResults results = new FilterResults();
-
-                                // We implement here the filter logic
-                                if (constraint == null || constraint.length() == 0) {
-
-                                    // No filter implemented we return all the list
-                                    results.values = cursor;
-                                    results.count = cursor.getCount();
-                                } else {
-                                    // We perform filtering operation
-                                    MatrixCursor returnCursor = new MatrixCursor(new String[]{"_id", "name"});
-
-                                    cursor.moveToPosition(-1);
-                                    while (cursor.moveToNext()) {
-                                        String id = cursor.getString(0);
-                                        String name = cursor.getString(1);
-
-                                        if (name.toUpperCase().startsWith(constraint.toString().toUpperCase())) {
-                                            returnCursor.addRow(new Object[]{id, name});
-                                        }
-                                    }
-
-                                    results.values = returnCursor;
-                                    results.count = returnCursor.getCount();
-                                }
-                                Toast.makeText(getActivity(), "performFiltering", Toast.LENGTH_LONG).show();
-                                return results;
-
-                            }
-
-                            @Override
-                            protected void publishResults(CharSequence constraint, FilterResults results) {
-                                // Now we have to inform the adapter about the new list filtered
-                                Toast.makeText(getActivity(), "publishResults", Toast.LENGTH_LONG).show();
-                                if (results.count == 0)
-                                    notifyDataSetInvalidated();
-                                else {
-                                    changeCursor((Cursor) results.values);
-                                    notifyDataSetChanged();
-                                    //    }
-
-                                }
-                            }
-
-
-                        };
-                    }*/
-
-//                adapter = new CursorTreeAdapter(cursor,getActivity()) {
-//                    @Override
-//                    protected Cursor getChildrenCursor(Cursor groupCursor) {
-//                        return null;
-//                    }
-//
-//                    @Override
-//                    protected View newGroupView(Context context, Cursor cursor, boolean isExpanded, ViewGroup parent) {
-//                        return null;
-//                    }
-//
-//                    @Override
-//                    protected void bindGroupView(View view, Context context, Cursor cursor, boolean isExpanded) {
-//
-//                    }
-//
-//                    @Override
-//                    protected View newChildView(Context context, Cursor cursor, boolean isLastChild, ViewGroup parent) {
-//                        return null;
-//                    }
-//
-//                    @Override
-//                    protected void bindChildView(View view, Context context, Cursor cursor, boolean isLastChild) {
-//
-//                    }
-//                };
-
-                };
-                itemListView.setVisibility(View.VISIBLE);
-                loadingTextView.setVisibility(View.INVISIBLE);
-                itemListView.setAdapter(adapter1);
-
-
-            }
-
-            ;
-        }.execute();
-
+    private void dismissLoadingScreen() {
+        if (showingLoadingScreen)
+            StaticDeclarations.hideLoadingScreen();
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    private boolean loadingScreenIsShown() {
+        return showingLoadingScreen;
+    }
+
+    private void keepShowingLoadingScreen() {
+        if (!showingLoadingScreen)
+            StaticDeclarations.showLoadingScreen(getContext(), "Loading");
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
+/*        if (context instanceof OnListFragmentInteractionListener) {
+            mListener = (OnListFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnListFragmentInteractionListener");
+        }*/
     }
 
     @Override
@@ -282,18 +245,127 @@ public class ListFragmentBusiness extends Fragment {
         mListener = null;
     }
 
+    public void updateView() {
+        getListAsyncTask();
+    }
+
+    public void Filter(String s) {
+        ArrayList list = new ArrayList();
+        //saving current list
+        beforeFilterList.clear();
+        beforeFilterList.addAll(businessList);
+
+        list.addAll(businessList);
+        BusinessFilter filter = new BusinessFilter(s, list);
+        ArrayList<Business> newList;
+        try {
+            newList = filter.Filter();
+            ListFragmentBusiness.refreshAdapter(adp, businessList, newList);
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Error Parsing Query", Toast.LENGTH_SHORT);
+        }
+    }
+
+    public void clearFilter() {
+        if (beforeFilterList.size() == 0)
+            if (businessList.size() != 0)
+                return;
+        refreshAdapter(adp, businessList, beforeFilterList);
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
+     * <p/>
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onListFragmentInteraction(DummyItem item);
+    }
+
+    /**
+     * get businesses with content provider
+     */
+    private void getListAsyncTask() {
+        class myTask extends AsyncTask<Void, Void, Void> {
+            ArrayList<Business> newList = new ArrayList<>();
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                if(listView!= null)
+                    listView.setVisibility(View.GONE);
+                if(pBar != null)
+                    pBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                newList = db.getBusinessList();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                if (pBar != null)
+                    pBar.setVisibility(View.GONE);
+                if (listView != null)
+                    listView.setVisibility(View.VISIBLE);
+                if (adp != null)
+                    refreshAdapter(adp, businessList, newList);
+            }
+        }
+        myTask task = new myTask();
+        task.execute();
+    }
+
+    /**
+     * refresh the adapter whos holding the view
+     * @param ad
+     * @param originList
+     * @param newList
+     */
+    public static void refreshAdapter(BaseExpandableListAdapter ad, ArrayList originList, ArrayList newList) {
+        originList.clear();
+        originList.addAll(newList);
+        ad.notifyDataSetChanged();
+    }
+
+    /**
+     * all the intents when clicked on certain data
+     * @param current
+     * @param website
+     */
+    public static void WebsiteIntet(Activity current,String website){
+        current.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://" +website)));
+    }
+    /**
+     * all the intents when clicked on certain data
+     */
+    public static void MapsIntent(Activity curr,String city,String street){
+        Intent Chooser;
+        String url = "http://maps.google.com/maps?daddr="+city +" "+street;
+        Intent iintent = new Intent(android.content.Intent.ACTION_VIEW,  Uri.parse(url));
+        Chooser = Intent.createChooser(iintent,"Launch Maps");
+        curr.startActivity(Chooser);
+    }
+    /**
+     * all the intents when clicked on certain data
+     */
+    public static void emailIntent(Activity curr,String email){
+        if(!email.matches(".+@.+[.]com"))
+            if(!email.contains("@"))
+                email += "@gmail.com";
+            else
+                email += "gmail.com";
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto", email, null));
+        curr.startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
 }
