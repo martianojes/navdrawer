@@ -18,7 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jessymartiano.navdrawer.backend.BusinessFilter;
+import com.example.jessymartiano.navdrawer.backend.DBManagerFactory;
 import com.example.jessymartiano.navdrawer.backend.StaticDeclarations;
+import com.example.jessymartiano.navdrawer.data.ListDatabase;
 import com.example.jessymartiano.navdrawer.dummy.DummyContent.DummyItem;
 
 import com.example.jessymartiano.navdrawer.backend.DB_manager;
@@ -42,7 +44,7 @@ public class ListFragmentBusiness extends Fragment {
     private OnListFragmentInteractionListener mListener;
     private ArrayList<Business> businessList = new ArrayList<>();
     private ArrayList<Business> beforeFilterList = new ArrayList<>();
-    DB_manager db = BackendFactory.getFactoryDatabase();
+    DB_manager db = DBManagerFactory.getManager();
     private boolean noDataRecieved = true;
     private boolean showingLoadingScreen = false;
     BusinessListRecyclerViewAdapter adap = null;
@@ -306,7 +308,7 @@ public class ListFragmentBusiness extends Fragment {
 
             @Override
             protected Void doInBackground(Void... params) {
-                newList = db.getBusinessList();
+                newList = ListDatabase.getBusinessListFromCursor(db.getBusinesses());
                 return null;
             }
 

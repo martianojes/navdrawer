@@ -20,7 +20,7 @@ public class PublicObjects {
     public static ListFragmentBusiness BussFrag = null;
     public static Fragment currentFrag = null;
 
-    public static ListFragmentActivity getAttractionFragment(){
+    public static ListFragmentActivity getActivityFragment(){
         if(AttFrag == null)
             AttFrag = new ListFragmentActivity();
         return AttFrag;

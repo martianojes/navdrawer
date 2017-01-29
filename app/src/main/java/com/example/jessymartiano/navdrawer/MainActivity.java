@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -30,8 +32,11 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.example.jessymartiano.navdrawer.backend.AcademyContract;
+import com.example.jessymartiano.navdrawer.backend.DBManagerFactory;
 import com.example.jessymartiano.navdrawer.backend.DB_manager;
+import com.example.jessymartiano.navdrawer.backend.Delegate;
 import com.example.jessymartiano.navdrawer.backend.PublicObjects;
+import com.example.jessymartiano.navdrawer.data.ListDatabase;
 
 import static com.example.jessymartiano.navdrawer.R.layout.activity_main;
 import static com.example.jessymartiano.navdrawer.R.layout.list_row;
@@ -60,6 +65,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public boolean onQueryTextSubmit(String query) {
                 android.support.v4.app.Fragment current = getSupportFragmentManager().findFragmentByTag("buss");
@@ -102,7 +108,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         ctx = this;
-        db = BackendFactory.getFactoryDatabase();
+        db = DBManagerFactory.getManager();
         setUpDatabase(new Delegate() {
             @Override
             public void Do() {
@@ -120,7 +126,7 @@ public class MainActivity extends AppCompatActivity
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                db.setUpDatabase();
+                ListDatabase.setUpDatabase();
                 return null;
             }
 
@@ -195,7 +201,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.starting, menu);
+        getMenuInflater().inflate(R.menu.activity_main_drawer, menu);
         return true;
     }
 
@@ -220,13 +226,13 @@ public class MainActivity extends AppCompatActivity
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.frame_container);
 
         try {
-            if (id == R.id.nav_bus) {
+            if (id == R.id.nav_Business) {
                 //open business fragment
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, PublicObjects.getBusinessFragment(), "buss").commit();
                 PublicObjects.currentFrag = PublicObjects.BussFrag;
-            } else if (id == R.id.nav_att) {
+            } else if (id == R.id.nav_activity) {
                 //open attraction fragment
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, PublicObjects.getAttractionFragment(), "att").commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, PublicObjects.getActivityFragment(), "att").commit();
                 PublicObjects.currentFrag = PublicObjects.AttFrag;
             } else if (id == R.id.nav_exit) {
                 finish();

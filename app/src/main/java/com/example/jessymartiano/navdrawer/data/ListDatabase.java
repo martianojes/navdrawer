@@ -79,7 +79,7 @@ public class ListDatabase implements DB_manager {
         return toReturn;
     }*/
 
-    public void setUpDatabase() {
+    public static void setUpDatabase() {
         activityList = getAsyncListActivity();
         businessList = getAsyncListBusiness();
     }
@@ -89,7 +89,7 @@ public class ListDatabase implements DB_manager {
      * @param list
      * @return
      */
-    private ArrayList<Activity> getActivityListFromCursor(Cursor list) {
+    public static ArrayList<Activity> getActivityListFromCursor(Cursor list) {
         ArrayList<Activity> toReturn = new ArrayList<>();
         try {
             Cursor ab = list;
@@ -124,7 +124,7 @@ public class ListDatabase implements DB_manager {
      * @param list
      * @return
      */
-    public ArrayList<Business> getBusinessListFromCursor(Cursor list) {
+    public static ArrayList<Business> getBusinessListFromCursor(Cursor list) {
         ArrayList<Business> toReturn = new ArrayList<>();
 
         try {

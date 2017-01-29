@@ -38,6 +38,7 @@ import com.example.jessymartiano.navdrawer.backend.AcademyContract;
 import com.example.jessymartiano.navdrawer.backend.ActivityFilter;
 import com.example.jessymartiano.navdrawer.backend.DBManagerFactory;
 import com.example.jessymartiano.navdrawer.backend.DB_manager;
+import com.example.jessymartiano.navdrawer.data.ListDatabase;
 import com.example.jessymartiano.navdrawer.entities.Activity;
 
 import org.w3c.dom.Text;
@@ -59,23 +60,25 @@ public class ListFragmentActivity extends Fragment {
     ProgressBar pBar;
 
 
-    // EditText filterEditText;
-    SearchView filterSearchView;
-    //  CursorAdapter adapter;
-
-    CursorAdapter adapter;
-    SimpleCursorAdapter adapter1 ;
-
     public ListFragmentActivity() {
 
     }
 
+    @SuppressWarnings("unused")
+    public static ListFragmentActivity newInstance(int columnCount) {
+        ListFragmentActivity fragment = new ListFragmentActivity();
+        Bundle args = new Bundle();
+        args.putInt(ARG_COLUMN_COUNT, columnCount);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -177,6 +180,7 @@ public class ListFragmentActivity extends Fragment {
                 }
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
                 if(convertView == null){
@@ -199,16 +203,16 @@ public class ListFragmentActivity extends Fragment {
                 desc.setText(current.getExplanation());
                 switch (current.getType()){
                     case AIRLINE:
-                        img.setImageResource(R.mipmap.airline_icon);
+                        img.setImageResource(R.mipmap.planeicon);
                         break;
                     case ENTERTAINMENT:
-                        img.setImageResource(R.mipmap.enterintemnt_icon);
+                        img.setImageResource(R.mipmap.entertainmenticon);
                         break;
                     case TRAVEL_AGENCY:
-                        img.setImageResource(R.mipmap.travel_icon);
+                        img.setImageResource(R.mipmap.travelicon);
                         break;
                     case VACATION_PACKAGE_HOTEL:
-                        img.setImageResource(R.mipmap.hotel_icon);
+                        img.setImageResource(R.mipmap.hotelicon);
                         break;
                     default:
                         break;
@@ -238,7 +242,7 @@ public class ListFragmentActivity extends Fragment {
         };
         //listView.setIndicatorBoundsRelative(listView.getWidth()-50, listView.getWidth());
         listView.setAdapter(adap);
-        getAttractionListAsyncTask();
+        getActivityListAsyncTask();
         return view;
     }
 
@@ -264,9 +268,9 @@ public class ListFragmentActivity extends Fragment {
     //region other functions
 
     /**
-     * get attractions by asynctask from contentprovider
+     * get activity by asynctask from contentprovider
      */
-    private void getAttractionListAsyncTask() {
+    private void getActivityListAsyncTask() {
         class myTask extends AsyncTask<Void,Void,Void> {
             ArrayList<Activity> newList;
 
@@ -284,7 +288,7 @@ public class ListFragmentActivity extends Fragment {
             protected Void doInBackground(Void... params) {
                 DB_manager db = DBManagerFactory.getManager();
                 newList = new ArrayList<>();
-                newList = db.getActivities();
+                newList = ListDatabase.getActivityListFromCursor(db.getActivities());
                 return null;
             }
 
@@ -307,7 +311,7 @@ public class ListFragmentActivity extends Fragment {
      * refresh the database
      */
     public void updateView() {
-        getAttractionListAsyncTask();
+        getActivityListAsyncTask();
     }
 
     /**
