@@ -125,15 +125,15 @@ public class ListFragmentBusiness extends Fragment {
                 Business count = businessList.get(groupPosition);
                 switch (childPosition) {
                     case 0:
-                        return count.getName();
+                        return count.getName().toString();
                     case 1:
                         return count.getStreet().toString();
                     case 2:
-                        return count.getMail();
+                        return count.getMail().toString();
                     case 3:
-                        return count.getWebsite();
+                        return count.getWebsite().toString();
                     default:
-                        return count.getName();
+                        return count.getName().toString();
                 }
             }
 

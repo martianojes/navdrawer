@@ -56,9 +56,12 @@ public class ListFragmentActivity extends android.support.v4.app.Fragment {
     ArrayList<Activity> beforeFilterList = new ArrayList<>();
     private OnListFragmentInteractionListener mListener;
    // ActivityListRecyclerViewAdapter adp = null;
-    BaseExpandableListAdapter adap;
+    BaseExpandableListAdapter adap = null;
     ExpandableListView listView;
     ProgressBar pBar;
+    DB_manager db = DBManagerFactory.getManager();
+    private boolean showingLoadingScreen= false;
+
 
 
     public ListFragmentActivity() {
@@ -122,11 +125,11 @@ public class ListFragmentActivity extends android.support.v4.app.Fragment {
                 switch (childPosition)
                 {
                     case 0:
-                        return count.getId();
+                        return String.valueOf(count.getId());
                     case 1:
                         return count.getType().toString();
                     case 2:
-                        return count.getBusinessid();
+                        return String.valueOf(count.getBusinessid());
                     case 3:
                         return count.getPrice()+" $";
                     case 4:
@@ -144,12 +147,12 @@ public class ListFragmentActivity extends android.support.v4.app.Fragment {
 
             @Override
             public long getGroupId(int groupPosition) {
-                return 0;
+                return groupPosition;
             }
 
             @Override
             public long getChildId(int groupPosition, int childPosition) {
-                return 0;
+                return childPosition;
             }
 
             @Override
@@ -188,7 +191,7 @@ public class ListFragmentActivity extends android.support.v4.app.Fragment {
                     LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     convertView = inflater.inflate(R.layout.parent_layout_att, parent,false);
                 }
-                Activity current=new Activity() ;//= activity.get(groupPosition);
+                Activity current = activity.get(groupPosition);
 
                 TextView country = (TextView) convertView.findViewById(R.id.Tvcountry);
                 country.setText(activity.get(groupPosition).getCountry());
@@ -196,7 +199,7 @@ public class ListFragmentActivity extends android.support.v4.app.Fragment {
                 enddate.setText(activity.get(groupPosition).getEnd().toString());
                 TextView parent_textview = (TextView) convertView.findViewById(R.id.parentTv);
                 parent_textview.setTypeface(null, Typeface.BOLD);
-                parent_textview.setText(activity.get(groupPosition).getId());
+                parent_textview.setText(String.valueOf(current.getType()));
                 ImageView img = (ImageView) convertView.findViewById(R.id.imageViewAtt);
                 TextView desc = (TextView)convertView.findViewById(R.id.TVdesc);
                 desc.setText(activity.get(groupPosition).getExplanation());
@@ -271,7 +274,7 @@ public class ListFragmentActivity extends android.support.v4.app.Fragment {
      */
     private void getActivityListAsyncTask() {
         class myTask extends AsyncTask<Void,Void,Void> {
-            ArrayList<Activity> newList;
+            ArrayList<Activity> newList = new ArrayList<>();
 
             @Override
             protected void onPreExecute() {
@@ -285,8 +288,6 @@ public class ListFragmentActivity extends android.support.v4.app.Fragment {
 
             @Override
             protected Void doInBackground(Void... params) {
-                DB_manager db = DBManagerFactory.getManager();
-                newList = new ArrayList<>();
                 newList = ListDatabase.getActivityListFromCursor(db.getActivities());
                 return null;
             }

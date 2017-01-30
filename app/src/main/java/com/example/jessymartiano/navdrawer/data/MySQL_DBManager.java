@@ -122,7 +122,9 @@ public class MySQL_DBManager implements DB_manager {
                             AcademyContract.Activity.ACTIVITY_BEGIN,
                             AcademyContract.Activity.ACTIVITY_END,
                             AcademyContract.Activity.ACTIVITY_PRICE,
-                            AcademyContract.Activity.ACTIVITY_EXPLANATION
+                            AcademyContract.Activity.ACTIVITY_EXPLANATION,
+                            AcademyContract.Activity.ACTIVITY_BUSINESS_ID
+
                     });
             String str = PHPtools.GET(WEB_URL + "/activities.php");
             JSONArray array = new JSONObject(str).getJSONArray("activities");
@@ -139,15 +141,19 @@ public class MySQL_DBManager implements DB_manager {
                         jsonObject.getString(AcademyContract.Activity.ACTIVITY_COUNTRY),
                         jsonObject.getString(AcademyContract.Activity.ACTIVITY_BEGIN),
                         jsonObject.getString(AcademyContract.Activity.ACTIVITY_END),
-                        jsonObject.getString(AcademyContract.Activity.ACTIVITY_PRICE),
-                        jsonObject.getString(AcademyContract.Activity.ACTIVITY_EXPLANATION)
+                        jsonObject.getInt(AcademyContract.Activity.ACTIVITY_PRICE),
+                        jsonObject.getString(AcademyContract.Activity.ACTIVITY_EXPLANATION),
+                        jsonObject.getInt(AcademyContract.Activity.ACTIVITY_BUSINESS_ID)
+
+
                 });
             }
             return matrixCursor;
         } catch (Exception e) {
-            e.printStackTrace();
+            printLog(e.getMessage());
+            return null;
+
         }
-        return null;
     }
 
     @Override
