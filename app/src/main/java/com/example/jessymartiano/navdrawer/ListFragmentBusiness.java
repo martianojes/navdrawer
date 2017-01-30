@@ -47,7 +47,7 @@ public class ListFragmentBusiness extends Fragment {
     DB_manager db = DBManagerFactory.getManager();
     private boolean noDataRecieved = true;
     private boolean showingLoadingScreen = false;
-    BusinessListRecyclerViewAdapter adap = null;
+    //BusinessListRecyclerViewAdapter adap = null;
     BaseExpandableListAdapter adp = null;
     ExpandableListView listView;
     ProgressBar pBar;

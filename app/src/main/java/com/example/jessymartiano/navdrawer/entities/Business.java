@@ -2,6 +2,8 @@ package com.example.jessymartiano.navdrawer.entities;
 
 import com.example.jessymartiano.navdrawer.backend.AcademyContract;
 
+import java.io.Serializable;
+
 /**
  * Created by David on 30/11/2016.
  */

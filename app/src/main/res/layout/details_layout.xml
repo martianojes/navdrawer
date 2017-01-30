@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
         android:id="@+id/thumbnaildetails"
@@ -29,12 +31,13 @@
         android:textAlignment="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/price"
+        android:id="@+id/pricedetails"
         android:layout_marginTop="20dp"
         android:layout_toRightOf="@id/thumbnaildetails"/>
 
     <TextView
         android:text="@string/typeActivity"
+
         android:textSize="18sp"
         android:textStyle="bold"
         android:textAlignment="center"
@@ -42,19 +45,20 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_toRightOf="@id/thumbnaildetails"
-        android:layout_below="@id/price"
-        android:id="@+id/typeActivity" />
+        android:layout_below="@id/pricedetails"
+        android:id="@+id/typeActivitydetails" />
 
     <TextView
         android:text="France"
+        android:autoLink="map"
         android:textSize="18sp"
         android:textAlignment="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:id="@+id/country"
+        android:id="@+id/countrydetails"
         android:layout_toRightOf="@id/thumbnaildetails"
-        android:layout_below="@id/typeActivity"
+        android:layout_below="@id/typeActivitydetails"
         />
     <LinearLayout
         android:layout_width="wrap_content"
@@ -79,6 +83,7 @@
         android:id="@+id/tvDateStart" />
 
     <TextView
+        android:autoLink="email"
         android:text="11/11/2011"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -100,6 +105,7 @@
         android:id="@+id/tvDateEnd" />
 
         <TextView
+            android:autoLink="web"
             android:text="11/11/2011"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -110,6 +116,7 @@
 
     <TextView
         android:text="Details"
+        android:autoLink="phone"
         android:layout_marginTop="10dp"
         android:textSize="18sp"
         android:textAlignment="center"

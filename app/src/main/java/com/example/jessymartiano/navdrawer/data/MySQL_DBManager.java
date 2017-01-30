@@ -137,10 +137,10 @@ public class MySQL_DBManager implements DB_manager {
                         jsonObject.getInt(AcademyContract.Activity.ACTIVITY_ID),
                         jsonObject.getString(AcademyContract.Activity.ACTIVITY_TYPE),
                         jsonObject.getString(AcademyContract.Activity.ACTIVITY_COUNTRY),
-                        jsonObject.getInt(AcademyContract.Activity.ACTIVITY_BEGIN),
-                        jsonObject.getInt(AcademyContract.Activity.ACTIVITY_END),
-                        jsonObject.getInt(AcademyContract.Activity.ACTIVITY_PRICE),
-                        jsonObject.getInt(AcademyContract.Activity.ACTIVITY_EXPLANATION)
+                        jsonObject.getString(AcademyContract.Activity.ACTIVITY_BEGIN),
+                        jsonObject.getString(AcademyContract.Activity.ACTIVITY_END),
+                        jsonObject.getString(AcademyContract.Activity.ACTIVITY_PRICE),
+                        jsonObject.getString(AcademyContract.Activity.ACTIVITY_EXPLANATION)
                 });
             }
             return matrixCursor;
@@ -178,11 +178,11 @@ public class MySQL_DBManager implements DB_manager {
                 matrixCursor.addRow(new Object[]{
                         jsonObject.getInt(AcademyContract.Business.BUSINESS_ID),
                         jsonObject.getString(AcademyContract.Business.BUSINESS_NAME),
-                        jsonObject.getInt(AcademyContract.Business.BUSINESS_COUNTRY),
-                        jsonObject.getBoolean(AcademyContract.Business.BUSINESS_STREET),
-                        jsonObject.getInt(AcademyContract.Business.BUSINESS_PHONE),
-                        jsonObject.getInt(AcademyContract.Business.BUSINESS_MAIL),
-                        jsonObject.getInt(AcademyContract.Business.BUSINESS_WEBSITE)
+                        jsonObject.getString(AcademyContract.Business.BUSINESS_COUNTRY),
+                        jsonObject.getString(AcademyContract.Business.BUSINESS_STREET),
+                        jsonObject.getString(AcademyContract.Business.BUSINESS_PHONE),
+                        jsonObject.getString(AcademyContract.Business.BUSINESS_MAIL),
+                        jsonObject.getString(AcademyContract.Business.BUSINESS_WEBSITE)
                 });
             }
             return matrixCursor;

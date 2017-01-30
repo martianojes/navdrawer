@@ -36,6 +36,8 @@ import com.example.jessymartiano.navdrawer.backend.DBManagerFactory;
 import com.example.jessymartiano.navdrawer.backend.DB_manager;
 import com.example.jessymartiano.navdrawer.backend.Delegate;
 import com.example.jessymartiano.navdrawer.backend.PublicObjects;
+import com.example.jessymartiano.navdrawer.ListFragmentActivity;
+import com.example.jessymartiano.navdrawer.ListFragmentBusiness;
 import com.example.jessymartiano.navdrawer.data.ListDatabase;
 
 import static com.example.jessymartiano.navdrawer.R.layout.activity_main;
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public boolean onQueryTextSubmit(String query) {
-                android.support.v4.app.Fragment current = getSupportFragmentManager().findFragmentByTag("buss");
+                Fragment current = getSupportFragmentManager().findFragmentByTag("buss");
                 if (PublicObjects.BussFrag != null) {
                     //found it business
                     if (current != null) {
@@ -80,7 +82,7 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
                 if (PublicObjects.AttFrag != null) {
-                    current = getSupportFragmentManager().findFragmentByTag("att");
+                     current = getSupportFragmentManager().findFragmentByTag("att");
                     if (current.getId() == PublicObjects.AttFrag.getId()) {
                         //resetting the list
                         //PublicObjects.AttFrag.updateView();

@@ -18,11 +18,11 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/Busslist"
         android:groupIndicator="@null"
-        android:name="project.android.com.second_app.controller.BusinessesListFragmentFragment"
+        android:name="com.example.jessymartiano.navdrawer.ListFragmentActivityFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/colorPrimaryDark"
-        tools:context="project.android.com.second_app.controller.BusinessesListFragment"
+        tools:context="com.example.jessymartiano.navdrawer.ListFragmentActivity"
         android:dividerHeight="0dp"
         android:childDivider="@color/colorPrimaryDark" />
 </LinearLayout>

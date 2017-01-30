@@ -48,13 +48,14 @@ import java.util.ArrayList;
 import com.example.jessymartiano.navdrawer.dummy.DummyContent.DummyItem;
 
 
-public class ListFragmentActivity extends Fragment {
+public class ListFragmentActivity extends android.support.v4.app.Fragment {
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
     ArrayList<Activity> activity = new ArrayList<>();
     ArrayList<Activity> beforeFilterList = new ArrayList<>();
     private OnListFragmentInteractionListener mListener;
+   // ActivityListRecyclerViewAdapter adp = null;
     BaseExpandableListAdapter adap;
     ExpandableListView listView;
     ProgressBar pBar;
@@ -187,21 +188,19 @@ public class ListFragmentActivity extends Fragment {
                     LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     convertView = inflater.inflate(R.layout.parent_layout_att, parent,false);
                 }
-                Activity current = activity.get(groupPosition);
+                Activity current=new Activity() ;//= activity.get(groupPosition);
 
                 TextView country = (TextView) convertView.findViewById(R.id.Tvcountry);
+                country.setText(activity.get(groupPosition).getCountry());
                 TextView enddate = (TextView) convertView.findViewById(R.id.TvEndDate);
-
-                country.setText(current.getCountry());
-                enddate.setText(current.getEnd().toString());
-
+                enddate.setText(activity.get(groupPosition).getEnd().toString());
                 TextView parent_textview = (TextView) convertView.findViewById(R.id.parentTv);
                 parent_textview.setTypeface(null, Typeface.BOLD);
-                parent_textview.setText(current.getId());
+                parent_textview.setText(activity.get(groupPosition).getId());
                 ImageView img = (ImageView) convertView.findViewById(R.id.imageViewAtt);
                 TextView desc = (TextView)convertView.findViewById(R.id.TVdesc);
-                desc.setText(current.getExplanation());
-                switch (current.getType()){
+                desc.setText(activity.get(groupPosition).getExplanation());
+                switch (activity.get(groupPosition).getType()){
                     case AIRLINE:
                         img.setImageResource(R.mipmap.planeicon);
                         break;

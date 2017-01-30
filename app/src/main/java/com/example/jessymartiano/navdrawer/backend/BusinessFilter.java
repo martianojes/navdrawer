@@ -4,9 +4,7 @@ import com.example.jessymartiano.navdrawer.entities.Business;
 
 import java.util.ArrayList;
 
-/**
- * Created by Yair on 2017-01-18.
- */
+
 
 /**
  * filters the businesses by the search parameters
