@@ -26,13 +26,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
                 <ImageView
-                    android:layout_width="95dp"
+                    android:layout_width="110dp"
                     android:layout_marginLeft="10sp"
-                    android:layout_height="95dp"
+                    android:layout_height="80dp"
                     android:layout_gravity="center"
                     app:srcCompat="@mipmap/business_icon_reversed"
 
-                    android:id="@+id/imageViewAtt" />
+                    android:id="@+id/imageViewbus" />
             </LinearLayout>
 
             <LinearLayout

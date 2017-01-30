@@ -13,10 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jessymartiano.navdrawer.backend.AcademyContract;
 import com.example.jessymartiano.navdrawer.backend.BusinessFilter;
 import com.example.jessymartiano.navdrawer.backend.DBManagerFactory;
 import com.example.jessymartiano.navdrawer.backend.StaticDeclarations;
@@ -181,7 +183,24 @@ public class ListFragmentBusiness extends Fragment {
                 TextView parent_textview = (TextView) convertView.findViewById(R.id.parentTv);
                 parent_textview.setTypeface(null, Typeface.BOLD);
                 parent_textview.setText(businessList.get(groupPosition).getName());
-                return convertView;
+                ImageView img = (ImageView) convertView.findViewById(R.id.imageViewbus);
+                switch ((businessList.get(groupPosition).getId())%4) {
+                    case 0:
+                        img.setImageResource(R.mipmap.business1);
+                        break;
+                    case 1:
+                        img.setImageResource(R.mipmap.business2);
+                        break;
+                    case 2:
+                        img.setImageResource(R.mipmap.business3);
+                        break;
+                    case 3:
+                        img.setImageResource(R.mipmap.business4);
+                        break;
+                    default:
+                        break;
+                }
+                    return convertView;
             }
 
             @Override
