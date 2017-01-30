@@ -288,7 +288,7 @@ public class ListFragmentActivity extends android.support.v4.app.Fragment {
 
             @Override
             protected Void doInBackground(Void... params) {
-                newList = ListDatabase.getActivityListFromCursor(db.getActivities());
+                newList = db.getAsyncListActivity();
                 return null;
             }
 

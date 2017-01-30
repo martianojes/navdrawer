@@ -308,7 +308,7 @@ public class ListFragmentBusiness extends Fragment {
 
             @Override
             protected Void doInBackground(Void... params) {
-                newList = ListDatabase.getBusinessListFromCursor(db.getBusinesses());
+                newList = db.getAsyncListBusiness();
                 return null;
             }
 

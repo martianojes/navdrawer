@@ -1,7 +1,6 @@
 package com.example.jessymartiano.navdrawer.backend;
 
-import com.example.jessymartiano.navdrawer.data.*;
-import com.example.jessymartiano.navdrawer.data.MySQL_DBManager;
+import com.example.jessymartiano.navdrawer.data.ListDatabase;
 
 /**
  * Created by David on 01/12/2016.
@@ -14,7 +13,7 @@ public class DBManagerFactory {
 
         public static DB_manager getManager() {
             if (manager == null) {
-                manager = new MySQL_DBManager()
+                manager = new ListDatabase()
                 {};
             }
             return manager;
