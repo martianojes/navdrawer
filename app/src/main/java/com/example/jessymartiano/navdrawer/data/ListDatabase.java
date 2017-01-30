@@ -63,9 +63,9 @@ public class ListDatabase implements DB_manager {
     }
 
 
-    public static void setUpDatabase() {
-       //activityList = getAsyncListActivity();
-       //businessList = getAsyncListBusiness();
+    public void setUpDatabase() {
+       activityList = getAsyncListActivity();
+       businessList = getAsyncListBusiness();
     }
 
 

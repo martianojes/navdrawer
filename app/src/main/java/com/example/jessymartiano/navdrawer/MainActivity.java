@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                ListDatabase.setUpDatabase();
+                db.setUpDatabase();
                 return null;
             }
 

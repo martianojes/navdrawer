@@ -35,6 +35,7 @@ public interface DB_manager {
     ArrayList<Business> getAsyncListBusiness();
     ArrayList<Activity> getAsyncListActivity();
 
+    void setUpDatabase();
     boolean isUpdate();
 
 
