@@ -48,13 +48,14 @@
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:fontFamily="monospace"
+                    android:layout_weight="40"
                     android:gravity="center"
                     android:textStyle="normal|bold"
                     android:textSize="22sp" />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    android:layout_weight="30"
                     android:id="@+id/TVemail"
                     android:layout_gravity="right"
                     android:gravity="top|center"
@@ -64,7 +65,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    android:layout_weight="30"
                     android:id="@+id/TVaddress"
                     android:layout_gravity="right"
                     android:gravity="top|center"
