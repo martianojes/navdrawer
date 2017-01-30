@@ -10,7 +10,7 @@
 
 
 <LinearLayout
-    android:layout_marginTop="5dp"
+    android:layout_margin="5dp"
     android:layout_width="match_parent"
     android:layout_height="120dp"
     android:background="#85aaaaaa">
@@ -47,6 +47,7 @@
                     android:id="@+id/parentTv"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
+                    android:gravity="center"
                     android:fontFamily="monospace"
                     android:textStyle="normal|bold"
                     android:textSize="22sp" />
@@ -76,11 +77,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
-                    android:id="@+id/TVdesc"
+                    android:id="@+id/TVprice"
                     android:layout_gravity="right"
                     android:gravity="top|center"
                     android:text="Descreption"
-                    android:textStyle="normal|italic"
+                    android:textColor="#306616"
+                    android:textStyle="bold|italic"
                     android:textSize="18sp" />
 
             </LinearLayout>

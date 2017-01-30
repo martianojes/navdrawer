@@ -31,6 +31,7 @@
                     android:layout_height="95dp"
                     android:layout_gravity="center"
                     app:srcCompat="@mipmap/business_icon_reversed"
+
                     android:id="@+id/imageViewAtt" />
             </LinearLayout>
 
@@ -47,6 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:fontFamily="monospace"
+                    android:gravity="center"
                     android:textStyle="normal|bold"
                     android:textSize="22sp" />
                 <TextView

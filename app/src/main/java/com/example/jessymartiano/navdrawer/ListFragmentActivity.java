@@ -201,8 +201,8 @@ public class ListFragmentActivity extends android.support.v4.app.Fragment {
                 parent_textview.setTypeface(null, Typeface.BOLD);
                 parent_textview.setText(String.valueOf(current.getType()));
                 ImageView img = (ImageView) convertView.findViewById(R.id.imageViewAtt);
-                TextView desc = (TextView)convertView.findViewById(R.id.TVdesc);
-                desc.setText(activity.get(groupPosition).getExplanation());
+                TextView desc = (TextView)convertView.findViewById(R.id.TVprice);
+                desc.setText(String.valueOf(activity.get(groupPosition).getPrice())+" $");
                 switch (activity.get(groupPosition).getType()){
                     case AIRLINE:
                         img.setImageResource(R.mipmap.planeicon);
