@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:weightSum="1"
-    android:background="@drawable/side_nav_bar">
+    android:background="@drawable/slidbarnew"
+    >
 
     <TextView
         android:id="@+id/id"
