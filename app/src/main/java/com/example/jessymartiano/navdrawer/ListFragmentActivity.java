@@ -205,16 +205,16 @@ public class ListFragmentActivity extends android.support.v4.app.Fragment {
                 desc.setText(String.valueOf(activity.get(groupPosition).getPrice())+" $");
                 switch (activity.get(groupPosition).getType()){
                     case AIRLINE:
-                        img.setImageResource(R.mipmap.planeicon);
+                        img.setImageResource(R.mipmap.airline_icon);
                         break;
                     case ENTERTAINMENT:
-                        img.setImageResource(R.mipmap.entertainmenticon);
+                        img.setImageResource(R.mipmap.entertainment_icon);
                         break;
                     case TRAVEL_AGENCY:
-                        img.setImageResource(R.mipmap.travelicon);
+                        img.setImageResource(R.mipmap.travel_icon);
                         break;
                     case VACATION_PACKAGE_HOTEL:
-                        img.setImageResource(R.mipmap.hotelicon);
+                        img.setImageResource(R.mipmap.hotel_icon);
                         break;
                     default:
                         break;

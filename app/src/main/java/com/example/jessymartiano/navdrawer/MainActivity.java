@@ -41,7 +41,7 @@ import com.example.jessymartiano.navdrawer.ListFragmentBusiness;
 import com.example.jessymartiano.navdrawer.data.ListDatabase;
 
 import static com.example.jessymartiano.navdrawer.R.layout.activity_main;
-import static com.example.jessymartiano.navdrawer.R.layout.list_row;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

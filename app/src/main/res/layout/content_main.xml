@@ -17,6 +17,15 @@
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+
+            android:layout_gravity="center"
+            android:layout_marginLeft="10sp"
+            app:srcCompat="@mipmap/logoapp"
+            android:id="@+id/imageViewAtt"
+            />
 
     </FrameLayout>
 
