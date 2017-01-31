@@ -5,9 +5,19 @@ package com.example.jessymartiano.navdrawer.entities;
  */
 
 public enum enumActivities {
-    VACATION_PACKAGE_HOTEL,
-    TRAVEL_AGENCY,
-    ENTERTAINMENT,
-    AIRLINE;
+    Hotel("Hotel"),
+    Travel("Travel"),
+    Entertainment("Entertainment"),
+    Airline("Airline");
+
+    private String friendlyName;
+
+    private enumActivities(String friendlyName){
+        this.friendlyName = friendlyName;
+    }
+
+    @Override public String toString(){
+        return friendlyName;
+    }
 }
 

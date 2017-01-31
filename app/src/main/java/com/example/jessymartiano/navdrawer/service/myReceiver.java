@@ -26,7 +26,7 @@ public class MyReceiver extends BroadcastReceiver {
         Log.d("my service" , "onReceive");
         DB_manager db = DBManagerFactory.getManager();
         db.setUpDatabase();
-        Toast.makeText(context,intent.getAction(),Toast.LENGTH_LONG).show();
+
 
         //throw new UnsupportedOperationException("Not yet implemented");
     }

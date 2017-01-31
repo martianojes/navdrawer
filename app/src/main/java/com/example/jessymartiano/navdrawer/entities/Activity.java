@@ -117,4 +117,42 @@ public class Activity {
     public void setBusinessid(int businessid) {
         this.businessid = businessid;
     }
+
+    public static String[] getColumns(){
+        return new String[]{
+                AcademyContract.Activity.ACTIVITY_TYPE,
+                AcademyContract.Activity.ACTIVITY_COUNTRY,
+                AcademyContract.Activity.ACTIVITY_BEGIN,
+                AcademyContract.Activity.ACTIVITY_END,
+                AcademyContract.Activity.ACTIVITY_PRICE,
+                AcademyContract.Activity.ACTIVITY_EXPLANATION,
+                AcademyContract.Activity.ACTIVITY_BUSINESS_ID,
+                AcademyContract.Activity.ACTIVITY_ID,
+                AcademyContract.Activity.ACTIVITY_NAME};
+    }
+
+    public String getValue(String Col) throws Exception {
+        switch (Col){
+            case AcademyContract.Activity.ACTIVITY_BUSINESS_ID:
+                return String.valueOf(getBusinessid());
+            case AcademyContract.Activity.ACTIVITY_TYPE:
+                return getType().toString();
+            case AcademyContract.Activity.ACTIVITY_COUNTRY:
+                return getCountry();
+            case AcademyContract.Activity.ACTIVITY_BEGIN:
+                return getBeginning();
+            case AcademyContract.Activity.ACTIVITY_END:
+                return getEnd();
+            case AcademyContract.Activity.ACTIVITY_PRICE:
+                return String.valueOf(getPrice());
+            case AcademyContract.Activity.ACTIVITY_EXPLANATION:
+                return getExplanation();
+            case AcademyContract.Activity.ACTIVITY_ID:
+                return String.valueOf(getId());
+            case AcademyContract.Activity.ACTIVITY_NAME:
+                return String.valueOf(getName());
+            default:
+                throw new Exception("Error ! Column doesn't Exist");
+        }
+    }
 }

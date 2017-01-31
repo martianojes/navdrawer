@@ -204,19 +204,20 @@ public class ListFragmentActivity extends android.support.v4.app.Fragment {
                 TextView desc = (TextView)convertView.findViewById(R.id.TVprice);
                 desc.setText(String.valueOf(activity.get(groupPosition).getPrice())+" $");
                 switch (activity.get(groupPosition).getType()){
-                    case AIRLINE:
+                    case Airline:
                         img.setImageResource(R.mipmap.airline_icon);
                         break;
-                    case ENTERTAINMENT:
+                    case Entertainment:
                         img.setImageResource(R.mipmap.entertainment_icon);
                         break;
-                    case TRAVEL_AGENCY:
+                    case Travel:
                         img.setImageResource(R.mipmap.travel_icon);
                         break;
-                    case VACATION_PACKAGE_HOTEL:
+                    case Hotel:
                         img.setImageResource(R.mipmap.hotel_icon);
                         break;
                     default:
+                        img.setImageResource(R.mipmap.hotel_icon);
                         break;
                 }
                 return convertView;
