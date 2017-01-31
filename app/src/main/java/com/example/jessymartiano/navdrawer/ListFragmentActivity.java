@@ -125,7 +125,7 @@ public class ListFragmentActivity extends android.support.v4.app.Fragment {
                 switch (childPosition)
                 {
                     case 0:
-                        return String.valueOf(count.getId());
+                        return String.valueOf(count.getName());
                     case 1:
                         return count.getType().toString();
                     case 2:
@@ -164,7 +164,7 @@ public class ListFragmentActivity extends android.support.v4.app.Fragment {
                 switch (childPosition)
                 {
                     case 0:
-                        return "ID: ";//att name
+                        return "Name: ";//att name
                     case 1:
                         return "Deal: ";//type
                     case 2:
@@ -199,7 +199,7 @@ public class ListFragmentActivity extends android.support.v4.app.Fragment {
                 enddate.setText(activity.get(groupPosition).getEnd().toString());
                 TextView parent_textview = (TextView) convertView.findViewById(R.id.parentTv);
                 parent_textview.setTypeface(null, Typeface.BOLD);
-                parent_textview.setText(String.valueOf(current.getType()));
+                parent_textview.setText(String.valueOf(current.getName()));
                 ImageView img = (ImageView) convertView.findViewById(R.id.imageViewAtt);
                 TextView desc = (TextView)convertView.findViewById(R.id.TVprice);
                 desc.setText(String.valueOf(activity.get(groupPosition).getPrice())+" $");

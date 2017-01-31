@@ -13,7 +13,7 @@ import java.util.Date;
  * Created by jessymartiano on 30/11/2016.
  */
 
-public class Activity implements Serializable {
+public class Activity {
     private enumActivities type;
     private String country;
     private String beginning;
@@ -21,6 +21,18 @@ public class Activity implements Serializable {
     private float price;
     private String explanation;
     private int id;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    private String name;
+
+
     private int businessid;
 
 
@@ -28,37 +40,7 @@ public class Activity implements Serializable {
 
     }
 
-    public static String[] getColumns(){
-        return new String[]{AcademyContract.Activity.ACTIVITY_TYPE,AcademyContract.Activity.ACTIVITY_COUNTRY,
-                AcademyContract.Activity.ACTIVITY_BEGIN,AcademyContract.Activity.ACTIVITY_END,
-                AcademyContract.Activity.ACTIVITY_PRICE,AcademyContract.Activity.ACTIVITY_EXPLANATION,
-                AcademyContract.Activity.ACTIVITY_BUSINESS_ID,AcademyContract.Activity.ACTIVITY_ID};
-    }
-
-    public String getValue(String Col) throws Exception {
-        switch (Col){
-            case AcademyContract.Activity.ACTIVITY_BUSINESS_ID:
-                return String.valueOf(getBusinessid());
-            case AcademyContract.Activity.ACTIVITY_TYPE:
-                return getType().toString();
-            case AcademyContract.Activity.ACTIVITY_COUNTRY:
-                return getCountry();
-            case AcademyContract.Activity.ACTIVITY_BEGIN:
-                return getBeginning();
-            case AcademyContract.Activity.ACTIVITY_END:
-                return getEnd();
-            case AcademyContract.Activity.ACTIVITY_PRICE:
-                return String.valueOf(getPrice());
-            case AcademyContract.Activity.ACTIVITY_EXPLANATION:
-                return getExplanation();
-            case AcademyContract.Activity.ACTIVITY_ID:
-                return String.valueOf(getId());
-            default:
-                throw new Exception("Error ! Column doesn't Exist");
-        }
-    }
-
-    public Activity(enumActivities type, String country, String beginning, String end, float price, String explanation, int id , int businessid) {
+    public Activity(enumActivities type, String country, String beginning, String end, float price, String explanation, int id , int businessid, String name) {
         this.type = type;
         this.country = country;
         this.beginning = beginning;
@@ -67,6 +49,7 @@ public class Activity implements Serializable {
         this.explanation = explanation;
         this.id = id;
         this.businessid=businessid;
+        this.name = name;
     }
 
 
@@ -94,8 +77,6 @@ public class Activity implements Serializable {
         this.beginning = beginning;
     }
 
-
-
     public String getEnd() {
         return end;
     }
@@ -103,7 +84,6 @@ public class Activity implements Serializable {
     public void setEnd(String end) {
         this.end = end;
     }
-
 
     public float getPrice() {
         return price;

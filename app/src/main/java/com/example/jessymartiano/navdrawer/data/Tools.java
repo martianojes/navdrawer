@@ -28,6 +28,8 @@ public class Tools {
         activity.setBeginning(contentValues.getAsString(AcademyContract.Activity.ACTIVITY_BEGIN));
         activity.setEnd(contentValues.getAsString(AcademyContract.Activity.ACTIVITY_END));
         activity.setExplanation(contentValues.getAsString(AcademyContract.Activity.ACTIVITY_EXPLANATION));
+        activity.setBusinessid(contentValues.getAsInteger(AcademyContract.Activity.ACTIVITY_BUSINESS_ID));
+        activity.setName(contentValues.getAsString(AcademyContract.Activity.ACTIVITY_NAME));
         return activity;
     }
 
@@ -40,6 +42,8 @@ public class Tools {
         contentValues.put(AcademyContract.Activity.ACTIVITY_BEGIN, activity.getBeginning().toString());
         contentValues.put(AcademyContract.Activity.ACTIVITY_END, activity.getEnd().toString());
         contentValues.put(AcademyContract.Activity.ACTIVITY_EXPLANATION, activity.getExplanation());
+        contentValues.put(AcademyContract.Activity.ACTIVITY_BUSINESS_ID, activity.getExplanation());
+        contentValues.put(AcademyContract.Activity.ACTIVITY_NAME, activity.getName());
         return contentValues;
     }
     public static Business ContentValuesToBusiness (ContentValues contentValues){
@@ -66,21 +70,7 @@ public class Tools {
         return contentValues;
     }
 
-    public static User ContentValuesToUser (ContentValues contentValues){
-        User user = new User();
-        user.setId(contentValues.getAsInteger(AcademyContract.User.USER_ID));
-        user.setUsername(contentValues.getAsString(AcademyContract.User.USER_USERNAME));
-        user.setPassword(contentValues.getAsString(AcademyContract.User.USER_PASSWORD));
-        return user;
-    }
 
-    public static ContentValues UserToContentValues (User user){
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(AcademyContract.User.USER_ID, user.getId());
-        contentValues.put(AcademyContract.User.USER_USERNAME, user.getUsername());
-        contentValues.put(AcademyContract.User.USER_PASSWORD, user.getPassword());
-        return contentValues;
-    }
 
     /**
      * transfer contentresolvers answer from Cursor into Arraylist
@@ -99,6 +89,7 @@ public class Tools {
             String explanation;
             int id;
             int businessId;
+            String name;
 
             for(ab.moveToFirst(); !ab.isAfterLast(); ab.moveToNext()) {
                 // The Cursor is now set to the right position
@@ -110,7 +101,8 @@ public class Tools {
                 price = Float.parseFloat(ab.getString(ab.getColumnIndex(AcademyContract.Activity.ACTIVITY_PRICE)));
                 explanation = ab.getString(ab.getColumnIndex(AcademyContract.Activity.ACTIVITY_EXPLANATION));
                 businessId = ab.getInt(ab.getColumnIndex(AcademyContract.Activity.ACTIVITY_BUSINESS_ID));
-                toReturn.add(new Activity(type,country,beginning,end,price,explanation,id,businessId));
+                name = ab.getString(ab.getColumnIndex(AcademyContract.Activity.ACTIVITY_NAME));
+                toReturn.add(new Activity(type,country,beginning,end,price,explanation,id,businessId,name));
             }
         } catch (Exception e) {
             e.printStackTrace();
