@@ -26,6 +26,7 @@ public class AcademyContract {
         public static final String ACTIVITY_PRICE = "price";
         public static final String ACTIVITY_EXPLANATION = "explanation";
         public static final String ACTIVITY_BUSINESS_ID = "business_Id";
+        public static final String ACTIVITY_NAME = "name";
 
 
         /**

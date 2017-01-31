@@ -30,7 +30,6 @@ import static com.example.jessymartiano.navdrawer.data.Tools.getBusinessListFrom
 public class ListDatabase implements DB_manager {
     static ArrayList<Activity> activityList;
     static ArrayList<Business> businessList;
-    static ArrayList<User> userList;
 
     ContentResolver resolver;
 
