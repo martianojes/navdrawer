@@ -14,29 +14,11 @@ import java.util.ArrayList;
 
 public interface DB_manager {
 
-    long addActivity(ContentValues values);
-    long addBusiness(ContentValues values);
-    long addUser(ContentValues values);
 
-    boolean checkUser(ContentValues values);
-
-    boolean removeActivity(long id);
-    boolean removeBusiness(long id);
-    boolean removeUser(long id);
-
-    boolean updateActivity(long id, ContentValues values);
-    boolean updateBusiness(long id, ContentValues values);
-    boolean updateUser(long id, ContentValues values);
-
-    Cursor getActivities();
-    Cursor getBusinesses();
-    Cursor getUsers();
-    Cursor getActivitiesBusiness();
     ArrayList<Business> getAsyncListBusiness();
     ArrayList<Activity> getAsyncListActivity();
 
     void setUpDatabase();
-    boolean isUpdate();
 
 
 }

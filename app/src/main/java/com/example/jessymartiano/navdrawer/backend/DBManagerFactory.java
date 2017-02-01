@@ -3,7 +3,7 @@ package com.example.jessymartiano.navdrawer.backend;
 import com.example.jessymartiano.navdrawer.data.ListDatabase;
 
 /**
- * Created by David on 01/12/2016.
+ * Created by David on 12/12/2016.
  */
 
 public class DBManagerFactory {

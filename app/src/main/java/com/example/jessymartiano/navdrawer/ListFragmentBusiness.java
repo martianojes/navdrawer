@@ -49,7 +49,6 @@ public class ListFragmentBusiness extends Fragment {
     DB_manager db = DBManagerFactory.getManager();
     private boolean noDataRecieved = true;
     private boolean showingLoadingScreen = false;
-    //BusinessListRecyclerViewAdapter adap = null;
     BaseExpandableListAdapter adp = null;
     ExpandableListView listView;
     ProgressBar pBar;
@@ -75,9 +74,7 @@ public class ListFragmentBusiness extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-/*        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }*/
+
     }
 
     @Override
@@ -252,12 +249,6 @@ public class ListFragmentBusiness extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-/*        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }*/
     }
 
     @Override

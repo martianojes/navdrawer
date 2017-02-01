@@ -8,7 +8,7 @@ import com.example.jessymartiano.navdrawer.SplashScreen;
 
 
 /**
- * Created by Yair on 2017-01-05.
+ *Created by David on 28/01/2017.
  */
 
 public class StaticDeclarations {
