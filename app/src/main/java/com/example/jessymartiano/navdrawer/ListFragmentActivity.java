@@ -164,19 +164,19 @@ public class ListFragmentActivity extends android.support.v4.app.Fragment {
                 switch (childPosition)
                 {
                     case 0:
-                        return "Name: ";//att name
+                        return "Name: ";//activity name
                     case 1:
-                        return "Deal: ";//type
+                        return "Type: ";//type
                     case 2:
-                        return "Owner: "; //Business name
+                        return "Business Id: "; //Business id
                     case 3:
-                        return "Price ";
+                        return "Price: ";
                     case 4:
-                        return "Starting Date ";
+                        return "Starting Date: ";
                     case 5:
-                        return "Ending Date ";
+                        return "Ending Date: ";
                     case 6:
-                        return "Country ";
+                        return "Country: ";
                     case 7:
                         return "Description: ";
                     default:

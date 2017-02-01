@@ -89,7 +89,7 @@ public class ListFragmentBusiness extends Fragment {
                 Business current = businessList.get(groupPosition);
                 switch (childPosition){
                     case 1: // maps
-                        MapsIntent(getActivity(),current.getStreet(),current.getStreet());
+                        MapsIntent(getActivity(),current.getStreet(),current.getCountry());
                         break;
                     case 2: // email
                         emailIntent(getActivity(),current.getMail());
@@ -126,7 +126,7 @@ public class ListFragmentBusiness extends Fragment {
                     case 0:
                         return count.getName().toString();
                     case 1:
-                        return count.getStreet().toString();
+                        return count.getStreet().toString() + " " + count.getCountry().toString();
                     case 2:
                         return count.getMail().toString();
                     case 3:
@@ -157,7 +157,7 @@ public class ListFragmentBusiness extends Fragment {
                     case 0:
                         return "Name: ";
                     case 1:
-                        return "Country: ";
+                        return "Address: ";
                     case 2:
                         return "Email: ";
                     case 3:
