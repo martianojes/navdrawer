@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/colorPrimaryDark"
-        tools:context="com.example.jessymartiano.navdrawer.ListFragmentBusiness"
+        tools:context="com.example.jessymartiano.navdrawer.controller.ListFragmentBusiness"
         android:dividerHeight="0dp"
         android:childDivider="@color/colorPrimaryDark" />
 </LinearLayout>

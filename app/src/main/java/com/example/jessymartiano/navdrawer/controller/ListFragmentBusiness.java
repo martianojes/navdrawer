@@ -1,4 +1,4 @@
-package com.example.jessymartiano.navdrawer;
+package com.example.jessymartiano.navdrawer.controller;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,12 +18,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.jessymartiano.navdrawer.backend.AcademyContract;
+import com.example.jessymartiano.navdrawer.R;
 import com.example.jessymartiano.navdrawer.backend.BusinessFilter;
 import com.example.jessymartiano.navdrawer.backend.DBManagerFactory;
-import com.example.jessymartiano.navdrawer.backend.StaticDeclarations;
-import com.example.jessymartiano.navdrawer.data.ListDatabase;
-import com.example.jessymartiano.navdrawer.dummy.DummyContent.DummyItem;
 
 import com.example.jessymartiano.navdrawer.backend.DB_manager;
 import com.example.jessymartiano.navdrawer.entities.Business;
@@ -232,19 +229,6 @@ public class ListFragmentBusiness extends Fragment {
         return view;
     }
 
-    private void dismissLoadingScreen() {
-        if (showingLoadingScreen)
-            StaticDeclarations.hideLoadingScreen();
-    }
-
-    private boolean loadingScreenIsShown() {
-        return showingLoadingScreen;
-    }
-
-    private void keepShowingLoadingScreen() {
-        if (!showingLoadingScreen)
-            StaticDeclarations.showLoadingScreen(getContext(), "Loading");
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -297,7 +281,7 @@ public class ListFragmentBusiness extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+       // void onListFragmentInteraction(DummyItem item);
     }
 
     /**

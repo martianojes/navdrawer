@@ -9,7 +9,7 @@
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/pBarAttractionFragment"
+        android:id="@+id/pBarActivityFragment"
         android:visibility="gone"
         android:layout_weight="1" />
 
@@ -23,7 +23,7 @@
         android:layout_height="match_parent"
         android:dividerHeight="0dp"
         android:divider="@color/colorPrimary"
-        tools:context="com.example.jessymartiano.navdrawer.ListFragmentActivity"
+        tools:context="com.example.jessymartiano.navdrawer.controller.ListFragmentActivity"
         android:scrollbars="none"
         android:footerDividersEnabled="true" />
 

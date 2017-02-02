@@ -1,4 +1,4 @@
-package com.example.jessymartiano.navdrawer;
+package com.example.jessymartiano.navdrawer.controller;
 
 
 import android.content.Context;
@@ -23,6 +23,7 @@ import android.view.MenuItem;
 
 import android.widget.FrameLayout;
 
+import com.example.jessymartiano.navdrawer.R;
 import com.example.jessymartiano.navdrawer.backend.DBManagerFactory;
 import com.example.jessymartiano.navdrawer.backend.DB_manager;
 import com.example.jessymartiano.navdrawer.backend.Delegate;
@@ -33,7 +34,7 @@ import com.example.jessymartiano.navdrawer.backend.PublicObjects;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    DB_manager db;
+    static DB_manager db;
     SearchView searchView;
 
     public static Context ctx;
@@ -68,13 +69,13 @@ public class MainActivity extends AppCompatActivity
                         return true;
                     }
                 }
-                if (PublicObjects.AttFrag != null) {
+                if (PublicObjects.ActivityFrag != null) {
                      current = getSupportFragmentManager().findFragmentByTag("att");
-                    if (current.getId() == PublicObjects.AttFrag.getId()) {
+                    if (current.getId() == PublicObjects.ActivityFrag.getId()) {
                         //resetting the list
-                        //PublicObjects.AttFrag.updateView();
-                        PublicObjects.AttFrag.clearFilter();
-                        PublicObjects.AttFrag.Filter(query.toString());
+                        //PublicObjects.ActivityFrag.updateView();
+                        PublicObjects.ActivityFrag.clearFilter();
+                        PublicObjects.ActivityFrag.Filter(query.toString());
                         return true;
                     }
                 }
@@ -87,8 +88,8 @@ public class MainActivity extends AppCompatActivity
                 if (newText.isEmpty()) {
                     if (PublicObjects.currentFrag == PublicObjects.BussFrag && PublicObjects.BussFrag != null)
                         PublicObjects.BussFrag.clearFilter();
-                    if (PublicObjects.currentFrag == PublicObjects.AttFrag && PublicObjects.AttFrag != null)
-                        PublicObjects.AttFrag.clearFilter();
+                    if (PublicObjects.currentFrag == PublicObjects.ActivityFrag && PublicObjects.ActivityFrag != null)
+                        PublicObjects.ActivityFrag.clearFilter();
                 }
                 return true;
             }
@@ -104,14 +105,13 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-        startService();
     }
 
     /**
      * set up the database, call the contentresolver
      * @param func
      */
-    private void setUpDatabase(final Delegate func) {
+    public static void setUpDatabase(final Delegate func) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity
      * when the database is update by an account
      * the ui is refreshed
      */
-    public void updateDatabase() {
+    public static void updateDatabase() {
         setUpDatabase(new Delegate() {
             @Override
             public void Do() {
@@ -143,27 +143,22 @@ public class MainActivity extends AppCompatActivity
     /**
      * the fragment are refreshed
      */
-    private void updateUI() {
+    public static void updateUI() {
         android.support.v4.app.Fragment current = PublicObjects.currentFrag;
         //found it bussiness
         if (current != null && current == PublicObjects.BussFrag) {
             PublicObjects.BussFrag.updateView();
             return;
         }
-        //attractions
-        if (current != null && current == PublicObjects.AttFrag) {
-            PublicObjects.AttFrag.updateView();
+        //activity
+        if (current != null && current == PublicObjects.ActivityFrag) {
+            PublicObjects.ActivityFrag.updateView();
             return;
         }
 
     }
 
-    /**
-     * service from other app is started so he sends broadcasts once it updated the database
-     */
-    private void startService(){
 
-    }
 
 
     //region Navigation Drawer
@@ -210,9 +205,9 @@ public class MainActivity extends AppCompatActivity
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, PublicObjects.getBusinessFragment(), "buss").commit();
                 PublicObjects.currentFrag = PublicObjects.BussFrag;
             } else if (id == R.id.nav_activity) {
-                //open attraction fragment
+                //open activity fragment
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, PublicObjects.getActivityFragment(), "att").commit();
-                PublicObjects.currentFrag = PublicObjects.AttFrag;
+                PublicObjects.currentFrag = PublicObjects.ActivityFrag;
             } else if (id == R.id.nav_exit) {
                 finish();
             }

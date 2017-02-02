@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import com.example.jessymartiano.navdrawer.backend.DBManagerFactory;
 import com.example.jessymartiano.navdrawer.backend.DB_manager;
+import com.example.jessymartiano.navdrawer.backend.Delegate;
+import com.example.jessymartiano.navdrawer.controller.MainActivity;
 
 /**
  * Created by Super Jessy on 26/01/2017.
@@ -24,8 +26,12 @@ public class MyReceiver extends BroadcastReceiver {
         // an Intent broadcast.
 
         Log.d("my service" , "onReceive");
-        DB_manager db = DBManagerFactory.getManager();
-        db.setUpDatabase();
+        MainActivity.setUpDatabase(new Delegate() {
+            @Override
+            public void Do() {
+
+            }
+        });
 
 
         //throw new UnsupportedOperationException("Not yet implemented");

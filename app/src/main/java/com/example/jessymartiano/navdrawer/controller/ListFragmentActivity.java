@@ -1,51 +1,30 @@
-package com.example.jessymartiano.navdrawer;
+package com.example.jessymartiano.navdrawer.controller;
 
-import android.app.Fragment;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.MatrixCursor;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
 import android.support.annotation.RequiresApi;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Button;
-import android.widget.CursorAdapter;
-import android.widget.CursorTreeAdapter;
-import android.widget.EditText;
 import android.widget.ExpandableListView;
-import android.widget.Filter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.SearchView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jessymartiano.navdrawer.R;
-import com.example.jessymartiano.navdrawer.MainActivity;
-import com.example.jessymartiano.navdrawer.backend.AcademyContract;
 import com.example.jessymartiano.navdrawer.backend.ActivityFilter;
 import com.example.jessymartiano.navdrawer.backend.DBManagerFactory;
 import com.example.jessymartiano.navdrawer.backend.DB_manager;
-import com.example.jessymartiano.navdrawer.data.ListDatabase;
 import com.example.jessymartiano.navdrawer.entities.Activity;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-import com.example.jessymartiano.navdrawer.dummy.DummyContent.DummyItem;
 
 
 public class ListFragmentActivity extends android.support.v4.app.Fragment {
@@ -87,7 +66,7 @@ public class ListFragmentActivity extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.expandable_list_activity_list, container, false);
-        pBar = (ProgressBar) view.findViewById(R.id.pBarAttractionFragment);
+        pBar = (ProgressBar) view.findViewById(R.id.pBarActivityFragment);
         listView = (ExpandableListView) view.findViewById(R.id.Attlist);
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
@@ -357,6 +336,6 @@ public class ListFragmentActivity extends android.support.v4.app.Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+       // void onListFragmentInteraction(DummyItem item);
     }
 }

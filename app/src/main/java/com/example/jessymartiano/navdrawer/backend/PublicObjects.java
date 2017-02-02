@@ -2,9 +2,9 @@ package com.example.jessymartiano.navdrawer.backend;
 
 import android.support.v4.app.Fragment;
 
-import com.example.jessymartiano.navdrawer.ListFragmentActivity;
-import com.example.jessymartiano.navdrawer.ListFragmentBusiness;
-import com.example.jessymartiano.navdrawer.MainActivity;
+import com.example.jessymartiano.navdrawer.controller.ListFragmentActivity;
+import com.example.jessymartiano.navdrawer.controller.ListFragmentBusiness;
+import com.example.jessymartiano.navdrawer.controller.MainActivity;
 
 /**
  * Created by David on 28/01/2017.
@@ -16,14 +16,14 @@ public class PublicObjects {
      *
      */
     public static MainActivity start = null;
-    public static ListFragmentActivity AttFrag = null;
+    public static ListFragmentActivity ActivityFrag = null;
     public static ListFragmentBusiness BussFrag = null;
     public static Fragment currentFrag = null;
 
     public static ListFragmentActivity getActivityFragment(){
-        if(AttFrag == null)
-            AttFrag = new ListFragmentActivity();
-        return AttFrag;
+        if(ActivityFrag == null)
+            ActivityFrag = new ListFragmentActivity();
+        return ActivityFrag;
     }
     public static ListFragmentBusiness getBusinessFragment(){
         if(BussFrag == null)

@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     android:weightSum="2"
-    tools:context="com.example.jessymartiano.navdrawer.SplashScreen">
+    tools:context="com.example.jessymartiano.navdrawer.controller.SplashScreen">
 
         <ProgressBar
             style="@style/Widget.AppCompat.ProgressBar"
