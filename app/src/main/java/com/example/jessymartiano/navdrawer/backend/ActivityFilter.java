@@ -16,6 +16,12 @@ public class ActivityFilter extends Filter<Activity> {
         super(input, data);
     }
 
+    /**
+     * Try to parse the String i to a range argument
+     * @param i the input to parse
+     * @param exceptList this is the output array , if succeeded the answer will be added
+     * @return  if the parse has succeeded
+     */
     @Override
     protected ArrayList<Activity> SumFilter(String i, ArrayList<Activity> exceptList) throws Exception {
         ArrayList<Activity> sum = new ArrayList<>();
@@ -27,6 +33,12 @@ public class ActivityFilter extends Filter<Activity> {
         sum.addAll(TryParseRange(i,toRunOn));
         return sum;
     }
+    /**
+     * Try to filter the String i to a range argument
+     * @param i the input to parse
+     * @param toRunOn this is the output array , if succeeded the answer will be added
+     * @return returns if the parse has succeeded
+     */
 
     @Override
     protected ArrayList<Activity> FilterAttributes(String i, ArrayList<Activity> toRunOn) throws Exception {

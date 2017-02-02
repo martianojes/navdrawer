@@ -3,6 +3,7 @@ package com.example.jessymartiano.navdrawer.controller;
 
 import android.content.Context;
 
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,13 +15,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.view.View;
 import android.widget.FrameLayout;
 
 import com.example.jessymartiano.navdrawer.R;
@@ -53,6 +57,19 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+        AlertDialog.Builder alertadd = new AlertDialog.Builder(this);
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View view = factory.inflate(R.layout.sample, null);
+        alertadd.setView(view);
+        alertadd.setTitle("Start");
+        alertadd.setMessage("To Start Click on this Icon");
+        alertadd.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dlg, int sumthin) {
+
+            }
+        });
+
+        alertadd.show();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
